@@ -1,0 +1,6 @@
+<mvc:View controllerName="sap.ui.demo.sapui5odata.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+
+ 
+</mvc:View>

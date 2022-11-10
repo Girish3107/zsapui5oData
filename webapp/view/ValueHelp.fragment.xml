@@ -1,0 +1,44 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar">
+	<TableSelectDialog id="_IDGenTableSelectDialog1"
+		noDataText="No Products Found"
+		title="Select Product"
+		search=".handleSearch"
+		confirm=".handleValueHelpClose"
+		cancel=".handleValueHelpClose"
+		showClearButton="true"
+        multiSelect="true"
+		items="{
+            path: 'Product>/Products',
+            sorter : {
+				path : 'ProductID',
+				descending : false
+			}
+            
+          }">
+
+        
+		<ColumnListItem id="_IDGenColumnListItem1" selected="{selected}">
+			<cells>
+                <Text id="_IDGenText0" text="{Product>ProductID}" />
+                <ObjectIdentifier id="_IDGenObjectIdentifier1" title="{Product>ProductName}"/>
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column id="_IDGenColumn1"
+				minScreenWidth="Desktop"
+				demandPopin="true">
+				<header>
+					<Text id="_IDGenText6" text="Product ID" />
+				</header>
+			</Column>
+			<Column id="_IDGenColumn2">
+				<header>
+					<Text id="_IDGenText7" text="Product" />
+				</header>
+			</Column>
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>

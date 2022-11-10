@@ -1,0 +1,519 @@
+<mvc:View controllerName="sap.ui.demo.sapui5odata.controller.App"
+   xmlns="sap.m"
+   xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+   
+  <App id="app1">
+   <pages>
+    <Page 
+    id="page1" 
+    enableScrolling="true" 
+    class="sapUiContentPadding" 
+    showFooter="false" 
+    showSubHeader = "false">
+    
+        <content>
+        
+         <Title id="_IDGenTitle1" text="{i18n>product}" level="H4"/>
+        <!-- <Label id="productLabel" text="{i18n>product}" labelFor="productInput"/> -->
+		<Input id="productInput"
+            type="Text"
+			placeholder="{i18n>enterProduct}"
+			showValueHelp="true"
+			valueHelpOnly="true"
+			valueHelpRequest="handleValueHelp"
+			width="100%"
+			class="sapUiSmallMarginBottom"/>
+        
+		
+        <Table id="idTable"
+        growing="true"
+        class="sapFDynamicPageAlignContent"
+        width="100%"
+        selectionChange="onSelectionChange"
+        >
+
+        <headerToolbar>
+			<OverflowToolbar id="otbSubheader">
+				<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+				<Button id="editButton" text="Edit" type="Transparent" press="onEdit" visible = "{newModel>/edit}" />
+				<Button id="addButton" text="Add" type="Transparent" press="onAdd" visible="{newModel>/add}"/>
+				<Button id="deleteButton" text="Delete" type="Transparent" press="onDelete" visible= "{newModel>/delete}"/>
+			</OverflowToolbar>
+		</headerToolbar>
+
+        <columns>
+
+			<Column id="prodId"
+				minScreenWidth="Desktop"
+				demandPopin="true">
+				<header>
+					<Text id="productId" text="{i18n>prodID}" />
+				</header>
+			</Column>
+
+			<Column id="prodName">
+				<header>
+					<Text id="productName" text="{i18n>prodName}" />
+				</header>
+			</Column>
+
+            <Column id="suppID">
+				<header>
+					<Text id="supplierID" text="{i18n>supID}" />
+				</header>
+			</Column>
+
+            <Column id="categID">
+				<header>
+					<Text id="categoryID" text="{i18n>catID}" />
+				</header>
+			</Column>
+
+            <Column id="quantUnit">
+				<header>
+					<Text id="quantity" text="{i18n>quantityPU}" />
+				</header>
+			</Column>
+
+            <Column id="unitP">
+				<header>
+					<Text id="unitPrice" text="{i18n>unitPrice}" />
+				</header>
+			</Column>
+
+             <Column id="unitsStock">
+				<header>
+					<Text id="unitStock" text="{i18n>unitINStock}" />
+				</header>
+			</Column>
+
+            <Column id="unitsOrder">
+				<header>
+					<Text id="unitOrd" text="{i18n>unitOnOrder}" />
+				</header>
+			</Column>
+
+            <Column id="reorderLevel">
+				<header>
+					<Text id="reorder" text="{i18n>reorderLevel}" />
+				</header>
+			</Column>
+
+            <Column id="disCont">
+				<header>
+					<Text id="discontinued" text="{i18n>dist}" />
+				</header>
+			</Column>
+
+		</columns>
+        <ColumnListItem id="colList" vAlign="Middle" press="tableSelected">
+
+			<cells>
+            <!-- product id -->
+                <HBox id="_IDGenHBox1" visible="true">
+                <Text 
+                id="pID" 
+                text="{currentProd>/ProductID}"
+                />
+                <Input 
+                id="pidInput" 
+                change="onChange" 
+                value="{currentProd>/ProductID}" 
+                visible="{= ${newModel>/editable} === true ?  ${Product>neweditable} === true ? true:false:false}"/>
+                </HBox>
+            <!-- product name -->
+                <HBox id="_IDGenHBox2" visible="true">
+                <Text 
+                id="pName" 
+                text="{currentProd>/ProductName}" 
+                visible="{= ${newModel>/display} === true ? true: false}"/>
+                <Input 
+                id="_IDGenInput1" 
+                change="onChange" 
+                value="{currentProd>/ProductName}" 
+                visible="{= ${newModel>/editable} === true ? true :false}"/>
+                </HBox>
+
+                <!-- SupplierID -->
+                <HBox id="_IDGenHBox3" visible="true">
+                <Text id="pSupp" text="{currentProd>/SupplierID}"/>
+                <Input 
+                id="supInput" 
+                change="onChange" 
+                value="{currentProd>/SupplierID}" 
+                visible="{= ${newModel>/editable} === true ?  ${Product>neweditable} === true ? true:false:false}"/>
+                </HBox>
+
+                <!-- CategoryID -->
+                <HBox id="_IDGenHBox4" visible="true">
+                <Text id="pcat" text="{currentProd>/CategoryID}"/>
+                <Input 
+                id="cateInput" 
+                change="onChange" 
+                value="{currentProd>/CategoryID}" 
+                visible="{= ${newModel>/editable} === true ?  ${Product>neweditable} === true ? true:false:false}"/>
+                </HBox>
+
+                <!-- QuantityPerUnit -->
+                <HBox id="_IDGenHBox5" visible="true">
+                <Text 
+                id="pQuant" 
+                text="{currentProd>/QuantityPerUnit}" 
+                visible="{= ${newModel>/display} === true ? true  :false}"/>
+                
+                <Input 
+                id="_IDGenInput2" 
+                change="onChange" 
+                value="{currentProd>/QuantityPerUnit}" 
+                visible="{= ${newModel>/editable} === true ? true :false}"/>
+  
+                </HBox>
+
+                <!-- UnitPrice -->
+                 <HBox id="_IDGenHBox6" visible="true">
+                 <Text 
+                 id="pUnit" 
+                 text="{currentProd>/UnitPrice}" 
+                 visible="{= ${newModel>/display} === true ? true  :false}"/>
+                <Input 
+                id="_IDGenInput3" 
+                change="onChange" 
+                value="{currentProd>/UnitPrice}" 
+                visible="{= ${newModel>/editable} === true ? true :false}"/>
+               
+                </HBox>
+
+                <!-- UnitsInStock -->
+                 <HBox id="_IDGenHBox7" visible="true">
+                 <Text 
+                 id="pStock" 
+                 text="{currentProd>/UnitsInStock}" 
+                 visible="{= ${newModel>/display} === true ? true  :false}"/>
+                <Input 
+                id="_IDGenInput4" 
+                change="onChange" 
+                value="{currentProd>/UnitsInStock}" 
+                visible="{= ${newModel>/editable} === true ? true :false}"/>
+                </HBox>
+
+                <!-- UnitsOnOrder -->
+                <HBox id="_IDGenHBox8" visible="true">
+                <Text 
+                id="pOrd" 
+                text="{currentProd>/UnitsOnOrder}" 
+                visible="{= ${newModel>/display} === true ? true  :false}"/>
+                <Input 
+                id="_IDGenInput5" 
+                change="onChange" 
+                value="{currentProd>/UnitsOnOrder}" 
+                visible="{= ${newModel>/editable} === true ? true :false}"/>
+                </HBox>
+
+                <!-- ReorderLevel -->
+                <HBox id="_IDGenHBox9" visible="true">
+                <Text 
+                id="pReOrd" 
+                text="{currentProd>/ReorderLevel}" 
+                visible="{= ${newModel>/display} === true ? true  :false}"/>
+                <Input 
+                id="_IDGenInput6" 
+                change="onChange" 
+                value="{currentProd>/ReorderLevel}" 
+                visible="{= ${newModel>/editable} === true ? true :false}"/>
+                </HBox>
+
+                <!-- Discontinued -->
+                <HBox id="_IDGenHBox10" visible="true">
+                <Text 
+                id="pDist" 
+                text="{currentProd>/Discontinued}" 
+               visible="{= ${newModel>/display} === true ? true  :false}"/>
+
+                <Input 
+                id="_IDGenInput7" 
+                change="onChange" 
+                value="{currentProd>/Discontinued}" 
+                visible="{= ${newModel>/editable} === true ? true :false}"/>
+                </HBox>
+                
+                
+			</cells>
+            
+		</ColumnListItem>
+
+
+        </Table>	
+        
+        
+        
+	
+        </content>
+       
+        <content>
+        <Table id="prodList"
+        growing="true"
+		growingThreshold="10"
+        items="{
+            path: 'Product>/Products'}"
+       mode="MultiSelect" 
+       selectionChange="onselectionChange">
+
+        <headerToolbar>
+		    <OverflowToolbar id="_IDGenOverflowToolbar2">
+			    <ToolbarSpacer id="_IDGenToolbarSpacer3"/>
+					<!-- <ToolbarSpacer id="_IDGenToolbarSpacer3"/>
+					<SearchField
+						id="searchField"
+						width="20%"
+						placeholder="{i18n>searchFieldPlaceholder}"
+						enabled="{= !${appView>/hasUIChanges}}"
+						search=".onSearch"/>
+					<Button
+						id="addUserButton"
+						icon="sap-icon://add"
+						tooltip="{i18n>createButtonText}"
+						press=".onCreate">
+					<layoutData>
+						<OverflowToolbarLayoutData id="_IDGenOverflowToolbarLayoutData1" priority="NeverOverflow"/>
+					</layoutData>
+					</Button>
+					<Button
+						id="deleteUserButton"
+						icon="sap-icon://delete"
+						tooltip="{i18n>deleteButtonText}"
+						press=".onDelete">
+					<layoutData>
+						<OverflowToolbarLayoutData id="_IDGenOverflowToolbarLayoutData2" priority="NeverOverflow"/>
+					</layoutData>
+					</Button>
+					<Button
+						id="refreshUsersButton"
+						icon="sap-icon://refresh"
+						enabled="{= !${appView>/hasUIChanges}}"
+						tooltip="{i18n>refreshButtonText}"
+						press=".onRefresh"/> -->
+					<!-- <Button
+						id="sortUsersButton"
+						icon="sap-icon://sort"
+						enabled="{= !${appView>/hasUIChanges}}"
+						tooltip="{i18n>sortButtonText}"
+						press=".onSort"/> -->
+                <Button id="editButton1" text="Edit" type="Transparent" press="onEdit1" visible = "{newModel>/edit}" />
+				<Button id="addButton1" text="Add" type="Transparent" press="onAdd1" visible="{newModel>/add}"/>
+				<Button id="deleteButton1" text="Delete" type="Transparent" press="onDelete1" visible= "{newModel>/delete}"/>
+			
+			</OverflowToolbar>
+		</headerToolbar>
+        
+        <columns>
+            <Column id="Pid">
+            <header>
+            <Text id="pid_text" text="{i18n>prodID}"></Text>
+            </header>
+            </Column>
+
+            <Column id="prod_name">
+            <header>
+            <Text 
+            id="name" 
+            text="{i18n>prodName}">
+            </Text>
+            </header>
+            </Column>
+
+            <Column id="supp_id">
+            <header>
+            <Text id="sup_id" text="{i18n>supID}"></Text>
+            </header>
+            </Column>
+
+            <Column id="cat_id">
+            <header>
+            <Text id="catt_id" text="{i18n>catID}"></Text>
+            </header>
+            </Column>
+
+            <Column id="quant">
+            <header>
+            <Text id="quanty" text="{i18n>quantityPU}"></Text>
+            </header>
+            </Column>
+
+            <Column id="uP">
+            <header>
+            <Text id="uP1" text="{i18n>unitPrice}"></Text>
+            </header>
+            </Column>
+
+            <Column id="uIS">
+            <header>
+            <Text id="uIS1" text="{i18n>unitINStock}"></Text>
+            </header>
+            </Column>
+
+            <Column id="uOO">
+            <header>
+            <Text id="uOO1" text="{i18n>unitOnOrder}"></Text>
+            </header>
+            </Column>
+
+            <Column id="reOL">
+            <header>
+            <Text id="reOL1" text="{i18n>reorderLevel}"></Text>
+            </header>
+            </Column>
+
+            <Column id="disC">
+            <header>
+            <Text id="disC1" text="{i18n>dist}"></Text>
+            </header>
+            </Column>
+        </columns>
+
+        <ColumnListItem id="list2" vAlign="Middle" press="tableSelected">
+            <cells>
+                <HBox id="1" visible="true">
+                <Text 
+                id="pID1" 
+                text="{Product>ProductID} "
+                visible="{= ${newModel>/editable} === true ? ${Product>neweditable} === true ? false:true :true}"/>
+
+                <Input id="_IDGenInput8" 
+                change="onChange" 
+                value="{Product>ProductID}" 
+                visible="{= ${newModel>/editable} === true ?  ${Product>neweditable} === true ? true:false:false}" 
+                valueState="{newModel>/valueState}" 
+                liveChange="onLiveChange"/>
+                
+                </HBox>
+
+                <HBox id="2" visible="true">
+                <Text 
+                id="pname" 
+                text="{Product>ProductName}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                 id="nameInput" 
+                 change="onChange" 
+                 value="{Product>ProductName}" 
+                 visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+
+                <HBox id="3" visible="true">
+                <Text 
+                id="suIs" 
+                text="{Product>SupplierID}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                 id="suppInput" 
+                 change="onChange" 
+                 value="{Product>SupplierID}" 
+                 visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+
+                <HBox id="4" visible="true">
+                <Text 
+                id="catT" 
+                text="{Product>CategoryID}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                 id="catInput" 
+                 change="onChange" 
+                 value="{Product>CategoryID}" 
+                 visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+
+                <HBox id="5" visible="true">
+                <Text 
+                id="qPU" 
+                text="{Product>QuantityPerUnit}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                id="quantityInput" 
+                change="onChange" 
+                value="{Product>QuantityPerUnit}" 
+                visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+
+                <HBox id="6" visible="true">
+                <Text 
+                id="UP" 
+                text="{Product>UnitPrice}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                id="priceInput" 
+                change="onChange" 
+                value="{Product>UnitPrice}" 
+                visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+                
+                <HBox id="7" visible="true">
+                <Text 
+                id="uS" 
+                text="{Product>UnitsInStock}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                id="unitInput" 
+                change="onChange" 
+                value="{Product>UnitsInStock}" 
+                visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+
+                <HBox id="8" visible="true">
+                <Text 
+                id="uOrder" 
+                text="{Product>UnitsOnOrder}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                id="orderInput" 
+                change="onChange" 
+                value="{Product>UnitsOnOrder}" 
+                visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+            
+            <HBox id="9" visible="true">
+                <Text 
+                id="reLevel" 
+                text="{Product>ReorderLevel}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                id="reorderInput" 
+                change="onChange" 
+                value="{Product>ReorderLevel}" 
+                visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+
+            <HBox id="10" visible="true">
+                <Text 
+                id="dsi" 
+                text="{Product>Discontinued}"
+                visible="{= ${Product>editable} === true ? false:true}"/>
+                <Input 
+                id="disInput" 
+                change="onChange" 
+                value="{Product>Discontinued}" 
+                visible="{= ${Product>editable} === true ? true:false}"/>
+                </HBox>
+            
+            </cells>
+        
+        </ColumnListItem>
+        
+        
+        </Table>
+      
+        </content>
+       
+        <footer>
+				<OverflowToolbar id="_IDGenOverflowToolbar1" >
+					<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
+					<Button id="saveButton" text="Save" type="Accept" press="onSave" />
+					<Button id="cancelButton" text="Cancel" type="Reject" press="onCancel"/>
+				</OverflowToolbar>
+		</footer>
+    </Page>
+    </pages>
+    </App>
+     
+</mvc:View>
